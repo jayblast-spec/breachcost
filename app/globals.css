@@ -1,54 +1,49 @@
 @import "tailwindcss";
 
 :root {
-  --background: #130508;
-  --surface: #1e080d;
-  --surface-2: #2a0d14;
-  --border: #3d1420;
-  --foreground: #ffeef1;
-  --muted: #c47a8a;
-  --accent: #f43f5e;
-  --accent-2: #fb7185;
-  --accent-soft: rgba(244,63,94,0.12);
-  --accent-glow: rgba(244,63,94,0.20);
-  --success: #34d399;
-  --warn: #fbbf24;
-  --danger: #f87171;
+  color-scheme: dark;
+  background: #05060a;
+  --background: #05060a;
+  --foreground: #f8fafc;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-surface: var(--surface);
-  --color-surface-2: var(--surface-2);
-  --color-border: var(--border);
-  --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
-  --color-accent: var(--accent);
-  --color-accent-2: var(--accent-2);
-  --color-accent-soft: var(--accent-soft);
-  --color-success: var(--success);
-  --color-warn: var(--warn);
-  --color-danger: var(--danger);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-html { color-scheme: dark; }
+html {
+  scroll-behavior: smooth;
+  background: #05060a;
+}
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
-}
-
-.rose-bg {
+  margin: 0;
+  min-height: 100vh;
   background:
-    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(244,63,94,0.22) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 40% at 85% 70%, rgba(251,113,133,0.08) 0%, transparent 60%),
-    var(--background);
+    radial-gradient(circle at 15% 0%, rgba(34, 211, 238, 0.12), transparent 28rem),
+    radial-gradient(circle at 85% 12%, rgba(168, 85, 247, 0.12), transparent 28rem),
+    #05060a;
+  color: #f8fafc;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-rendering: geometricPrecision;
 }
 
-.dot-grid {
-  background-image: radial-gradient(rgba(244,63,94,0.10) 1px, transparent 1px);
-  background-size: 32px 32px;
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+textarea,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+::selection {
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
 }
