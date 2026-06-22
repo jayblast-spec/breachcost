@@ -1,38 +1,63 @@
-# BreachCost
+<div align="center">
 
-BreachCost is a product in the Professional Utility.
+# 💸 BreachCost
 
-## Promise
+**Know the real cost of a data breach before it happens — AI-powered risk quantification for any business.**
 
-Estimate the business cost of a breach before it becomes a board surprise.
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit-6366f1?style=for-the-badge)](https://breachcost.vercel.app)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![MIT License](https://img.shields.io/badge/License-MIT-34d399?style=for-the-badge)](LICENSE)
 
-BreachCost helps founders, operators, and security leads translate incident scenarios into financial exposure, recovery work, trust loss, and prevention priorities.
+</div>
 
-## Current v1
+---
 
-- Bespoke product cockpit UI
-- Live product-specific intake
-- `POST /api/intelligence`
-- Product-specific scoring and action queue
-- Contributor mission lanes
-- Mobile-friendly layout
+## ✨ Features
 
-## Contributor Missions
+- 💰 **Total breach cost estimate** — regulatory fines, notification costs, reputational damage, recovery
+- 🏭 **Industry calibration** — healthcare, fintech, retail, SaaS — each has different exposure profiles
+- 📊 **IBM Cost of a Data Breach methodology** — estimates grounded in real benchmark data
+- ⚠️ **Risk factor analysis** — encryption posture, MFA coverage, incident response maturity scored
+- 📋 **Executive-ready report** — shareable PDF output for board and compliance conversations
+- 🔢 **Record-count sensitivity** — scales estimates based on PII volume at risk
+- ⚡ **Instant results** — answer 8 questions, get a full risk picture in seconds
 
-- Cost benchmark library: Improve assumptions using public breach cost sources.
-- Scenario templates: Add SaaS, ecommerce, healthcare, nonprofit, and agency models.
-- Prevention ROI engine: Compare fix cost against likely loss.
-- Board report export: Create a concise decision memo for leaders.
+---
 
-## Run Locally
+## 🚀 Quick Start
 
 ```bash
+git clone https://github.com/jayblast-spec/breachcost.git
+cd breachcost
 npm install
 npm run dev
 ```
 
-## Build
+Open [http://localhost:3000](http://localhost:3000)
 
-```bash
-npm run build
-```
+---
+
+## 🛠 Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 14 (App Router) |
+| Language | TypeScript |
+| AI | Groq |
+| Styling | Tailwind CSS |
+| Deployment | Vercel |
+
+---
+
+## 📦 Deploy Your Own
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/jayblast-spec/breachcost)
+
+Required env vars: `GROQ_API_KEY`
+
+---
+
+## 📄 License
+
+MIT © [Joy Ogunleye](https://github.com/jayblast-spec) · Built with [ArkNet Forge](https://arknet-os.vercel.app)
