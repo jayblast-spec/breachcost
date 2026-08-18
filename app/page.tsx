@@ -1,7 +1,148 @@
 'use client';
-import { useMemo, useState } from 'react';
-type Intel={score:number;status:string;intelligence_map:Array<{label:string;value:string;status:string}>;action_queue:Array<{action:string;priority:string;impact:string}>;contributor_lanes:Array<{lane:string;mission:string}>};
-const product={"repo":"breachcost","brand":"BreachCost","suite":"Professional Utility","domain":"Cyber risk finance","accent":"from-orange-300 via-red-300 to-fuchsia-300","hero":"Estimate the business cost of a breach before it becomes a board surprise.","sub":"BreachCost helps founders, operators, and security leads translate incident scenarios into financial exposure, recovery work, trust loss, and prevention priorities.","input":"SaaS company, 25k users, payment data handled by processor, possible credential stuffing incident","cta":"Estimate breach cost","score":"Cost confidence","modules":[["Scenario intake","Capture company size, data type, impact, and exposure."],["Cost model","Estimate response, downtime, support, legal, and trust impact."],["Prevention ROI","Compare likely cost against security improvements."],["Board memo","Turn risk into a decision-ready financial brief."]],"rows":[["Incident response","Recovery","High","Estimate technical and external response costs."],["Downtime impact","Revenue","Medium","Model lost sales, churn, and operational delay."],["Trust repair","Brand","High","Plan communication and retention work."],["Prevention budget","Strategy","Medium","Prioritize fixes by avoided cost."]],"missions":[["Cost benchmark library","Improve assumptions using public breach cost sources."],["Scenario templates","Add SaaS, ecommerce, healthcare, nonprofit, and agency models."],["Prevention ROI engine","Compare fix cost against likely loss."],["Board report export","Create a concise decision memo for leaders."]]} as const;
-function fallback(subject:string):Intel{const score=Math.min(96,61+(subject.length%29));return{score,status:score>84?'strong':score>72?'ready':'needs review',intelligence_map:product.modules.map(([label,value])=>({label,value,status:'review'})),action_queue:product.rows.slice(0,3).map(([item,owner,priority,note])=>({action:item+' - '+owner,priority,impact:note})),contributor_lanes:product.missions.map(([lane,mission])=>({lane,mission}))};}
-export default function Home(){const [subject,setSubject]=useState<string>(product.input);const [intel,setIntel]=useState<Intel>(()=>fallback(product.input));const [loading,setLoading]=useState(false);const tone=useMemo(()=>intel.score>=86?'text-emerald-100 border-emerald-300/40 bg-emerald-400/10':intel.score>=72?'text-cyan-100 border-cyan-300/40 bg-cyan-300/10':'text-amber-100 border-amber-300/40 bg-amber-300/10',[intel.score]);async function run(){setLoading(true);try{const r=await fetch('/api/intelligence',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({input:subject})});setIntel(await r.json());}finally{setLoading(false);}}
-return <main className="min-h-screen bg-[#05060a] text-white"><section className="relative overflow-hidden border-b border-white/10"><div className={`absolute inset-0 bg-gradient-to-br ${product.accent} opacity-20 blur-3xl`}/><div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:46px_46px] opacity-25"/><nav className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8"><div><p className="text-[10px] font-black uppercase tracking-[0.36em] text-white/45">{product.suite}</p><h1 className="text-xl font-black tracking-tight sm:text-2xl">{product.brand}</h1></div><div className="hidden items-center gap-6 text-sm text-white/65 md:flex"><a href="#studio">Studio</a><a href="#queue">Queue</a><a href="#contributors">Contributors</a><a href="#live" className="rounded-full bg-white px-4 py-2 font-black text-black">Run</a></div></nav><div className="relative z-10 mx-auto grid max-w-7xl gap-10 px-5 pb-16 pt-10 sm:px-8 lg:grid-cols-[1fr_1fr] lg:pb-24 lg:pt-16"><div><p className="w-fit rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[11px] font-black uppercase tracking-[0.24em] text-white/70">{product.domain}</p><h2 className="mt-7 max-w-4xl text-5xl font-black leading-[0.92] tracking-[-0.055em] sm:text-7xl lg:text-8xl">{product.hero}</h2><p className="mt-7 max-w-2xl text-lg leading-8 text-white/68">{product.sub}</p><div className="mt-9 flex flex-col gap-3 sm:flex-row"><a href="#live" className="rounded-full bg-white px-6 py-4 text-center text-sm font-black text-black">{product.cta}</a><a href="#contributors" className="rounded-full border border-white/15 px-6 py-4 text-center text-sm font-bold text-white/80">Contributor missions</a></div></div><div id="live" className="rounded-[2rem] border border-white/10 bg-black/35 p-4 shadow-2xl shadow-black/50 backdrop-blur-xl sm:p-5"><div className="rounded-[1.5rem] border border-white/10 bg-[#080d16]/90 p-5"><div className="flex items-start justify-between gap-4"><div><p className="text-[10px] font-black uppercase tracking-[0.28em] text-white/40">Product command studio</p><h3 className="mt-2 text-2xl font-black">{product.cta}</h3></div><div className={`rounded-2xl border px-4 py-3 text-right ${tone}`}><p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">{product.score}</p><p className="text-3xl font-black">{intel.score}</p></div></div><textarea value={subject} onChange={(e)=>setSubject(e.target.value)} className="mt-6 min-h-32 w-full resize-none rounded-2xl border border-white/10 bg-white/[0.055] p-4 text-sm leading-6 text-white outline-none focus:border-white/35"/><button onClick={run} className="mt-4 w-full rounded-full bg-white px-5 py-4 text-sm font-black text-black">{loading?'Thinking...':product.cta}</button><div className="mt-5 grid gap-3 sm:grid-cols-2">{intel.intelligence_map.map(item=><div key={item.label} className="rounded-2xl border border-white/10 bg-white/[0.045] p-4"><p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/38">{item.status}</p><h4 className="mt-3 font-black">{item.label}</h4><p className="mt-2 text-sm leading-6 text-white/55">{item.value}</p></div>)}</div></div></div></div></section><section id="studio" className="mx-auto grid max-w-7xl gap-8 px-5 py-16 sm:px-8 lg:grid-cols-[0.72fr_1.28fr]"><div><p className="text-[10px] font-black uppercase tracking-[0.32em] text-white/40">Product studio</p><h2 className="mt-4 text-4xl font-black tracking-[-0.035em] sm:text-5xl">A real workflow surface, not a thin AI wrapper.</h2><p className="mt-5 text-base leading-7 text-white/58">Each module exists so users can move from input to useful output, then into memory, action, export, or collaboration.</p></div><div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.045]">{product.rows.map(([item,owner,priority,note])=><div key={item} className="grid gap-3 border-b border-white/10 p-5 last:border-b-0 md:grid-cols-[1fr_0.7fr_0.5fr_1.3fr]"><p className="font-black">{item}</p><p className="text-sm text-white/58">{owner}</p><p className={String(priority)==='Critical'?'text-sm font-black text-red-200':'text-sm font-black text-cyan-100'}>{priority}</p><p className="text-sm leading-6 text-white/58">{note}</p></div>)}</div></section><section id="queue" className="border-y border-white/10 bg-white/[0.035]"><div className="mx-auto grid max-w-7xl gap-6 px-5 py-16 sm:px-8 lg:grid-cols-3">{intel.action_queue.map(item=><article key={item.action} className="rounded-[1.75rem] border border-white/10 bg-black/35 p-6"><p className="text-[10px] font-black uppercase tracking-[0.26em] text-white/40">{item.priority}</p><h3 className="mt-4 text-2xl font-black tracking-tight">{item.action}</h3><p className="mt-4 text-sm leading-7 text-white/58">{item.impact}</p></article>)}</div></section><section id="contributors" className="mx-auto max-w-7xl px-5 py-16 sm:px-8"><div className="mb-8 max-w-3xl"><p className="text-[10px] font-black uppercase tracking-[0.32em] text-white/40">Contributor missions</p><h2 className="mt-4 text-4xl font-black tracking-[-0.035em] sm:text-5xl">Open-source should feel like joining a serious lab.</h2><p className="mt-5 text-base leading-7 text-white/58">Concrete lanes for builders who want to help improve {product.brand}.</p></div><div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">{intel.contributor_lanes.map(item=><article key={item.lane} className="rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-5"><h3 className="text-xl font-black">{item.lane}</h3><p className="mt-3 text-sm leading-7 text-white/58">{item.mission}</p></article>)}</div></section></main>}
+import { useState } from 'react';
+
+type Intel = {
+  score: number;
+  status: string;
+  intelligence_map: Array<{ label: string; value: string; status: string }>;
+  action_queue: Array<{ action: string; priority: string; impact: string }>;
+};
+
+const TOOLS = [
+  { name: 'PortGuard', description: 'Exposed port & device scanner', url: 'https://portguard-six.vercel.app' },
+  { name: 'SafeLink', description: 'Link & file safety checker', url: 'https://safelink-wheat.vercel.app' },
+  { name: 'SubnetPilot', description: 'Subnet & CIDR calculator', url: 'https://subnetpilot.vercel.app' },
+  { name: 'ThreatPulse', description: 'Latest vulnerability feed', url: 'https://threatpulse-six.vercel.app' },
+  { name: 'BriefOS', description: 'AI intelligence brief generator', url: 'https://briefos-silk.vercel.app' },
+  { name: 'PostCraft', description: 'LinkedIn & X post writer', url: 'https://postcraft-one.vercel.app' },
+  { name: 'InvoiceKit', description: 'Professional invoice builder', url: 'https://invoicekit-pi.vercel.app' },
+  { name: 'DayForge', description: 'Daily execution planner', url: 'https://dayforge-psi.vercel.app' },
+  { name: 'MeetingMind', description: 'Meeting notes → actions', url: 'https://meetingmind-pied-one.vercel.app' },
+  { name: 'ContractLens', description: 'Contract risk scanner', url: 'https://contractlens-rho.vercel.app' },
+];
+
+const DEFAULT_INPUT = 'SaaS company, 25k users, payment data handled by processor, possible credential stuffing incident';
+
+function fallback(subject: string): Intel {
+  const score = Math.min(96, 61 + (subject.length % 29));
+  return {
+    score,
+    status: score > 84 ? 'strong' : score > 72 ? 'ready' : 'needs review',
+    intelligence_map: [
+      ['Scenario intake', 'Capture company size, data type, impact, and exposure.'],
+      ['Cost model', 'Estimate response, downtime, support, legal, and trust impact.'],
+      ['Prevention ROI', 'Compare likely cost against security improvements.'],
+      ['Board memo', 'Turn risk into a decision-ready financial brief.'],
+    ].map(([label, value]) => ({ label, value, status: 'review' })),
+    action_queue: [
+      ['Incident response', 'High', 'Estimate technical and external response costs.'],
+      ['Downtime impact', 'Medium', 'Model lost sales, churn, and operational delay.'],
+      ['Trust repair', 'High', 'Plan communication and retention work.'],
+    ].map(([action, priority, impact]) => ({ action, priority, impact })),
+  };
+}
+
+export default function Home() {
+  const [subject, setSubject] = useState(DEFAULT_INPUT);
+  const [intel, setIntel] = useState<Intel>(() => fallback(DEFAULT_INPUT));
+  const [loading, setLoading] = useState(false);
+
+  async function run() {
+    setLoading(true);
+    try {
+      const r = await fetch('/api/intelligence', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ input: subject }),
+      });
+      setIntel(await r.json());
+    } catch {
+      setIntel(fallback(subject));
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <main className="mx-auto flex w-full max-w-xl flex-1 flex-col px-4 py-8 sm:py-12">
+      <header className="mb-6">
+        <div className="flex items-center gap-3">
+          <span className="icon-3d">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 3 4 6v6c0 4.5 3.2 7.9 8 9 4.8-1.1 8-4.5 8-9V6l-8-3Z" />
+              <path d="m9.5 12 1.8 1.8L15 10" />
+            </svg>
+          </span>
+          <h1 className="text-xl font-bold text-foreground">BreachCost</h1>
+        </div>
+        <p className="mt-2 text-sm text-muted">
+          Estimate the business cost of a breach before it becomes a board surprise — free, instant, no signup.
+        </p>
+      </header>
+
+      <section className="rounded-lg border border-border bg-surface p-4">
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="text-sm font-semibold text-foreground">Estimate breach cost</h2>
+          <div className="rounded-md border border-border bg-surface-2 px-2.5 py-1 text-right">
+            <p className="text-[10px] font-semibold uppercase tracking-wide text-muted">Confidence</p>
+            <p className="text-sm font-bold text-foreground">{intel.score}</p>
+          </div>
+        </div>
+        <textarea
+          value={subject}
+          onChange={(e) => setSubject(e.target.value)}
+          className="mt-3 min-h-24 w-full resize-none rounded-md border border-border bg-background p-3 text-sm text-foreground outline-none focus:border-accent"
+        />
+        <button
+          onClick={run}
+          disabled={loading}
+          className="mt-3 w-full rounded-md bg-accent px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-accent-2 disabled:opacity-50"
+        >
+          {loading ? 'Estimating…' : 'Estimate breach cost'}
+        </button>
+      </section>
+
+      <section className="mt-4 grid gap-2 sm:grid-cols-2">
+        {intel.intelligence_map.map((item) => (
+          <div key={item.label} className="rounded-lg border border-border bg-surface px-3 py-2">
+            <p className="text-[10px] font-semibold uppercase tracking-wide text-muted">{item.status}</p>
+            <p className="text-sm font-medium text-foreground">{item.label}</p>
+            <p className="text-xs text-muted">{item.value}</p>
+          </div>
+        ))}
+      </section>
+
+      <section className="mt-4">
+        <p className="text-xs font-semibold uppercase tracking-wide text-muted">Priority actions</p>
+        <div className="mt-2 space-y-2">
+          {intel.action_queue.map((item) => (
+            <div key={item.action} className="rounded-lg border border-border bg-surface px-3 py-2">
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-medium text-foreground">{item.action}</p>
+                <span className="text-[10px] font-semibold uppercase tracking-wide text-accent-2">{item.priority}</span>
+              </div>
+              <p className="text-xs text-muted">{item.impact}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <footer className="mt-10 border-t border-border pt-6">
+        <p className="text-xs font-semibold uppercase tracking-wide text-muted">More free tools</p>
+        <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+          {TOOLS.map((tool) => (
+            <a key={tool.name} href={tool.url} target="_blank" rel="noopener noreferrer">
+              <div className="flex items-center justify-between rounded-lg border border-border bg-surface px-3 py-2">
+                <div>
+                  <p className="text-sm font-medium text-foreground">{tool.name}</p>
+                  <p className="text-xs text-muted">{tool.description}</p>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+        <p className="mt-6 text-center text-xs text-muted">Built by ArkNet Digital</p>
+      </footer>
+    </main>
+  );
+}
