@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 :root { color-scheme: dark; background: #070506; --brand-primary:#ff7a3d; --brand-secondary:#ff3d68; --brand-glow:rgba(255,88,54,.22); }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
