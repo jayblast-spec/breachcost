@@ -1,3 +1,5 @@
+import { completeWithFallback } from "@/lib/ai-fallback";
+
 export const maxDuration = 30;
 
 export type BreakdownItem = {
@@ -119,12 +121,6 @@ export async function POST(request: Request) {
     return Response.json({ error: "Please fill in all fields before estimating." }, { status: 400 });
   }
 
-  const apiKey = process.env.GROQ_API_KEY;
-  if (!apiKey) {
-    await new Promise((r) => setTimeout(r, 1800));
-    return Response.json({ demo: true, estimate: DEMO });
-  }
-
   const prompt = `Business profile:
 - Company size: ${employees} employees
 - Industry: ${industry}
@@ -134,26 +130,7 @@ export async function POST(request: Request) {
 Estimate the realistic cost range for a data breach at this company. Scale appropriately for their size and industry.`;
 
   try {
-    const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "llama-3.3-70b-versatile",
-        messages: [
-          { role: "system", content: SYSTEM },
-          { role: "user", content: prompt },
-        ],
-        temperature: 0.3,
-        max_tokens: 1600,
-      }),
-    });
-
-    if (!groqRes.ok) {
-      return Response.json({ error: "AI service unavailable. Try again shortly." }, { status: 502 });
-    }
-
-    const data = await groqRes.json();
-    const raw = data?.choices?.[0]?.message?.content ?? "";
+    const { content: raw } = await completeWithFallback(SYSTEM, prompt, { temperature: 0.3, maxTokens: 1600 });
 
     let estimate: BreachCostOutput;
     try {
@@ -164,7 +141,9 @@ Estimate the realistic cost range for a data breach at this company. Scale appro
     }
 
     return Response.json({ demo: false, estimate });
-  } catch {
-    return Response.json({ error: "Something went wrong. Try again shortly." }, { status: 502 });
+  } catch (err) {
+    console.error("completeWithFallback failed:", err instanceof Error ? err.message : err);
+    await new Promise((r) => setTimeout(r, 1500));
+    return Response.json({ demo: true, estimate: DEMO });
   }
 }
