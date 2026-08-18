@@ -43,6 +43,16 @@ BreachCost turns a described incident (company size, data type, exposure scenari
 - `app/api/intelligence` powers the homepage command studio with a deterministic scoring model, returning a cost-confidence score, an intelligence map, and an action queue.
 - Output is deterministic and scenario-driven rather than sourced from a live claims database, framed as a modeling tool for prioritization rather than an actuarial guarantee.
 
+## Engineering Notes
+
+**The real problem:** Founders and operators need a breach-cost gut-check today, not after a $400/hr forensics consult they can't afford yet — but a static calculator is either useless (too generic) or dishonest (fake precision).
+
+**The approach:** `/api/estimate` sends the scenario to Groq with a strict structured-output schema (`BreachCostOutput`) so the model returns typed categories — not prose — and falls back to a fixed demo estimate when no `GROQ_API_KEY` is set, so the UI degrades gracefully instead of breaking.
+
+**One real number:** the demo fallback isn't a random placeholder — it's a $280K–$950K range built from real cost categories (detection/escalation, notification, response, recovery), the same schema the live model fills in.
+
+**Not handled yet:** the homepage "intelligence score" widget (`/api/intelligence`) is a decorative teaser using a string-length heuristic, not a scoring model — it's cosmetic, and shouldn't be read as part of the cost engine.
+
 ## Live
 
 [breachcost.vercel.app](https://breachcost.vercel.app)
