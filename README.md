@@ -7,7 +7,6 @@
 BreachCost helps founders, operators, and security leads translate an incident scenario into a financial estimate: response cost, notification cost, regulatory exposure, recovery timeline, and customer churn — so a security decision can be made with a number attached instead of a guess.
 
 <p>
-  <a href="https://breachcost.vercel.app"><img alt="Live Demo" src="https://img.shields.io/badge/Live-Demo-1D4ED8?style=for-the-badge&logo=vercel&logoColor=white"></a>
   <a href="https://github.com/jayblast-spec/breachcost"><img alt="GitHub Repo" src="https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github&logoColor=white"></a>
 </p>
 
@@ -55,7 +54,7 @@ BreachCost turns a described incident (company size, data type, exposure scenari
 
 ## Live
 
-[breachcost.vercel.app](https://breachcost.vercel.app)
+*(demo temporarily offline)*
 
 ## Tech Stack
 
